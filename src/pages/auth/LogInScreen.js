@@ -29,11 +29,14 @@ function LogInScreen() {
                     const headers = {
                         Authorization: `Bearer ${json.data.accessToken}`,
                     };
-                    axios.get('http://localhost:3000/api/visitor/profile', { headers })
+                    if (json.data.role === "Visitor") {
+                        axios.get('http://localhost:3000/api/visitor/profile', { headers })
                         .then((response) => setLoginStatus(`Welcome ${response.data.name}!`))
                         .catch((error) => setLoginStatus('Login Failed'));
-
-                    setLoginStatus('Login Successful');
+                    }
+                    if (json.data.role === "Doctor") { setLoginStatus('Please use the app dedicated to doctors.'); }
+                    if (json.data.role === "Admin") { setLoginStatus('Welcome Admin'); }
+                    //setLoginStatus('Login Successful');
                 } else {
                     setLoginStatus('Login Failed');
                 }
@@ -41,31 +44,36 @@ function LogInScreen() {
     };
 
     return (
-        <div>
-            <h2>Connection</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="column">
-                    <input
-                        type="text"
-                        id="mail"
-                        placeholder="Enter your mail"
-                        value={mail}
-                        onChange={(e) => setMail(e.target.value)}
-                    />
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <div className="row">
-                        <button onClick={() => navigate('signup')} type="submit">Sign Up</button>
-                        <button onClick={handleLogin}>Login</button>
-                    </div>
-                    <div>{loginStatus}</div>
+        <div className="App">
+            <header className="App-header">
+                <h1>SoigneMoi</h1>
+                <div>
+                    <h2>Connection</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="column">
+                            <input
+                                type="text"
+                                id="mail"
+                                placeholder="Enter your mail"
+                                value={mail}
+                                onChange={(e) => setMail(e.target.value)}
+                            />
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <div className="row">
+                                <button onClick={() => navigate('signup')} type="submit">Sign Up</button>
+                                <button onClick={handleLogin}>Login</button>
+                            </div>
+                            <div>{loginStatus}</div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </header>
         </div>
     );
 }

@@ -44,54 +44,59 @@ function SignUp() {
     };
 
     return (
-        <div>
-            <h1>Signup</h1>
-            <form onSubmit={handleSubmit}>
-                <div div className="column">
-                    <div className="row">
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Surname"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                        />
-                    </div>
-                    <input
-                        type="text"
-                        placeholder="Mail"
-                        value={mail}
-                        onChange={(e) => setMail(e.target.value)}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Postal Code"
-                        value={postCode}
-                        onChange={(e) => setPostCode(e.target.value)}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={(password != passwordCheck) ? 'error' : ''}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirm password"
-                        value={passwordCheck}
-                        onChange={(e) => setPasswordCheck(e.target.value)}
-                        className={(password != passwordCheck) ? 'error' : ''}
-                    />
-                    <button onClick={handleSignup}>Signup</button>
+        <div className="App">
+            <header className="App-header">
+                <h1>SoigneMoi</h1>
+                <div>
+                    <h1>Signup</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div div className="column">
+                            <div className="row">
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Surname"
+                                    value={surname}
+                                    onChange={(e) => setSurname(e.target.value)}
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Mail"
+                                value={mail}
+                                onChange={(e) => setMail(e.target.value)}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Postal Code"
+                                value={postCode}
+                                onChange={(e) => setPostCode(e.target.value)}
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className={(password != passwordCheck) ? 'error' : ''}
+                            />
+                            <input
+                                type="password"
+                                placeholder="Confirm password"
+                                value={passwordCheck}
+                                onChange={(e) => setPasswordCheck(e.target.value)}
+                                className={(password != passwordCheck) ? 'error' : ''}
+                            />
+                            <button onClick={handleSignup}>Signup</button>
+                        </div>
+                        <div>{signupStatus}</div>
+                    </form>
                 </div>
-                <div>{signupStatus}</div>
-            </form>
+            </header>
         </div>
     );
 }
