@@ -66,7 +66,7 @@ function LogInScreen() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <div className="row">
-                                <button onClick={() => navigate('signup')} type="submit">Sign Up</button>
+                                <button onClick={() => navigate('/signup', { replace: true })} type="submit">Sign Up</button>
                                 <button onClick={handleLogin}>Login</button>
                             </div>
                             <div>{loginStatus}</div>
