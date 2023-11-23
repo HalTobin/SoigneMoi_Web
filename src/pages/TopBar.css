@@ -11,6 +11,13 @@
     z-index: 100;
 }
 
+.home-nav {
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+}
+
 .user-profile a {
     align-items: center;
     align-content: center;

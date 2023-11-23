@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './TopBar.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { TOKEN_STORAGE_KEY } from '../const';
 import { Button } from 'react-bootstrap';
@@ -10,13 +10,18 @@ function TopBar() {
     const [isConnected, setIsConnected] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [userName, setUserName] = useState("");
+    const [isLoginPage, setIsLoginPage] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
+        setIsLoginPage(location.pathname === '/login');
+
         const headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
+
         axios.get('http://localhost:3000/api/home/current_user', { headers })
             .then((response) => {
                 setUserName(response.data.name);
@@ -27,7 +32,7 @@ function TopBar() {
                 setIsConnected(false);
                 setIsAdmin(false);
             });
-    }, []);
+    }, [location]);
 
     const handleLogout = async () => {
         localStorage.removeItem(TOKEN_STORAGE_KEY);
@@ -40,7 +45,7 @@ function TopBar() {
             {/* Top Bar */}
             <div className="top-bar" >
                 <div className="logo">
-                    <h1>SoigneMoi</h1>
+                    <NavLink className="home-nav" to="/">SoigneMoi</NavLink>
                 </div>
                 <div className="user-profile">
                     {isConnected && (
@@ -48,11 +53,16 @@ function TopBar() {
                             {isAdmin ? 'Panel administrateur' : 'Prendre RDV'}
                         </Button>
                     )}
-                    <a href={isConnected ? "/profile" : "/login"}>{isConnected ? userName : 'Connexion'}</a>
+                    {/* Conditionally render the "Connexion" link based on the current page */}
+                    {!isLoginPage && (
+                        <a href={isConnected ? '/profile' : '/login'}>{isConnected ? userName : 'Connexion'}</a>
+                    )}
                     {isConnected && (
-                        <span className='disconnect'
+                        <span
+                            className="disconnect"
                             style={{ cursor: 'pointer' }}
-                            onClick={handleLogout}>
+                            onClick={handleLogout}
+                        >
                             <LogoutOutlined />
                         </span>
                     )}

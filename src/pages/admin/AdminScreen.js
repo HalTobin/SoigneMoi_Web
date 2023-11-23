@@ -95,26 +95,30 @@ function AdminScreen() {
                     <Modal.Title>Ajouter un médecin</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="modal-row">
-                        <input
-                            className="modal-input"
-                            type="text"
-                            name="name"
-                            placeholder="Nom"
-                            value={newDoctorData.name}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            className="modal-input"
-                            type="text"
-                            name="surname"
-                            placeholder="Prénom"
-                            value={newDoctorData.surname}
-                            onChange={handleInputChange}
-                        />
+                    <div className="form-row">
+                        <div className="form-group col-md-6">
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="name"
+                                placeholder="Nom"
+                                value={newDoctorData.name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="form-group col-md-6">
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="surname"
+                                placeholder="Prénom"
+                                value={newDoctorData.surname}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     </div>
                     <input
-                        className="modal-input"
+                        className="form-control"
                         type="text"
                         name="registrationNumber"
                         placeholder="Matricule"
@@ -122,7 +126,7 @@ function AdminScreen() {
                         onChange={handleInputChange}
                     />
                     <input
-                        className="modal-input"
+                        className="form-control"
                         type="password"
                         name="password"
                         placeholder="Mot de passe"
@@ -130,7 +134,7 @@ function AdminScreen() {
                         onChange={handleInputChange}
                     />
                     <select
-                        className="modal-input"
+                        className="form-control"
                         name="specialty"
                         value={newDoctorData.specialty}
                         onChange={handleInputChange}
