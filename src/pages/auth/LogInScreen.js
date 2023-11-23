@@ -2,6 +2,7 @@ import { useState } from "react";
 import './LogInScreen.css'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { TOKEN_STORAGE_KEY } from "../../const";
 
 function LogInScreen() {
     const [mail, setMail] = useState('');
@@ -24,18 +25,10 @@ function LogInScreen() {
         })
             .then((json) => {
                 if (json.status === 200) {
-                    localStorage.setItem('accessToken', json.data.accessToken);
-
-                    const headers = {
-                        Authorization: `Bearer ${json.data.accessToken}`,
-                    };
-                    if (json.data.role === "Visitor") {
-                        axios.get('http://localhost:3000/api/visitor/profile', { headers })
-                        .then((response) => setLoginStatus(`Welcome ${response.data.name}!`))
-                        .catch((error) => setLoginStatus('Login Failed'));
-                    }
+                    localStorage.setItem(TOKEN_STORAGE_KEY, json.data.accessToken);
+                    if (json.data.role === "Visitor") { navigate(-1) }
                     if (json.data.role === "Doctor") { setLoginStatus('Please use the app dedicated to doctors.'); }
-                    if (json.data.role === "Admin") { setLoginStatus('Welcome Admin'); }
+                    if (json.data.role === "Admin") { navigate('/admin', { replace: true }) }
                     //setLoginStatus('Login Successful');
                 } else {
                     setLoginStatus('Login Failed');
@@ -48,20 +41,20 @@ function LogInScreen() {
             <header className="App-header">
                 <h1>SoigneMoi</h1>
                 <div>
-                    <h2>Connection</h2>
+                    <h2>Connexion</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="column">
                             <input
                                 type="text"
                                 id="mail"
-                                placeholder="Enter your mail"
+                                placeholder="Adresse mail"
                                 value={mail}
                                 onChange={(e) => setMail(e.target.value)}
                             />
                             <input
                                 type="password"
                                 id="password"
-                                placeholder="Enter your password"
+                                placeholder="Mot de passe"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -77,6 +70,5 @@ function LogInScreen() {
         </div>
     );
 }
-
 
 export default LogInScreen;

@@ -11,7 +11,6 @@
 .row {
     display: flex;
     flex-direction: row;
-    /* Add margin-bottom to control spacing */
 }
 
 /* Style the label and input fields */

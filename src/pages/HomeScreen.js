@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import homeImage from '../images/home_image.jpg';
 import './HomeScreen.css';
+import axios from 'axios';
+import TopBar from './TopBar';
 
 function Homepage() {
     const [specialties, setSpecialties] = useState([]);
 
     useEffect(() => {
         // Make an API call to fetch data from the "public/specialties" endpoint
-        fetch('http://localhost:3000/api/public/specialties')
-            .then(response => response.json())
-            .then(data => setSpecialties(data.specialties))
+        axios.get('http://localhost:3000/api/home/specialties')
+            .then(response => setSpecialties(response.data.specialties))
             .catch(error => console.error('API call error:', error));
     }, []);
 
     return (
         <div>
-            {/* Top Bar */}
-            <div className="top-bar">
-                <div className="logo">
-                    <h1>SoigneMoi</h1>
-                </div>
-                <div className="user-profile">
-                    <a href="/login">Profile</a>
-                </div>
-            </div>
-
             {/* Image */}
             <div className="header-image-container">
                 <div className="header-image" style={{ backgroundImage: `url(${homeImage})` }} />
