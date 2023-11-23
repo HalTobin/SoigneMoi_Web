@@ -3,6 +3,7 @@ import './LogInScreen.css'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { TOKEN_STORAGE_KEY } from "../../const";
+import { Button } from "react-bootstrap";
 
 function LogInScreen() {
     const [mail, setMail] = useState('');
@@ -11,12 +12,7 @@ function LogInScreen() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add your form submission logic here
-        console.log('Mail:', mail);
-        console.log('Password:', password);
-    };
+    const handleSubmit = (e) => { e.preventDefault(); };
 
     const handleLogin = async () => {
         axios.post('http://localhost:3000/api/auth/login', {
@@ -29,7 +25,6 @@ function LogInScreen() {
                     if (json.data.role === "Visitor") { navigate(-1) }
                     if (json.data.role === "Doctor") { setLoginStatus('Please use the app dedicated to doctors.'); }
                     if (json.data.role === "Admin") { navigate('/admin', { replace: true }) }
-                    //setLoginStatus('Login Successful');
                 } else {
                     setLoginStatus('Login Failed');
                 }
@@ -39,12 +34,12 @@ function LogInScreen() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>SoigneMoi</h1>
+                <h1>Connexion</h1>
                 <div>
-                    <h2>Connexion</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="column">
                             <input
+                                className="form-control"
                                 type="text"
                                 id="mail"
                                 placeholder="Adresse mail"
@@ -52,15 +47,20 @@ function LogInScreen() {
                                 onChange={(e) => setMail(e.target.value)}
                             />
                             <input
+                                className="form-control password"
                                 type="password"
                                 id="password"
                                 placeholder="Mot de passe"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <div className="row">
-                                <button onClick={() => navigate('/signup', { replace: true })} type="submit">Sign Up</button>
-                                <button onClick={handleLogin}>Login</button>
+                            <div className="button-row">
+                                <Button
+                                    className="col-md-6"
+                                    onClick={() => navigate('/signup', { replace: true })} type="submit">Sign Up</Button>
+                                <Button
+                                    className="col-md-6"
+                                    onClick={handleLogin}>Login</Button>
                             </div>
                             <div>{loginStatus}</div>
                         </div>

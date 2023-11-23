@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./SignUpScreen.css"
+import { Button } from 'react-bootstrap';
 
 function SignUp() {
     const [mail, setMail] = useState('');
@@ -46,52 +47,59 @@ function SignUp() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>SoigneMoi</h1>
+                <h1>Inscription</h1>
                 <div>
-                    <h1>Signup</h1>
                     <form onSubmit={handleSubmit}>
                         <div div className="column">
-                            <div className="row">
-                                <input
-                                    type="text"
-                                    placeholder="Name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Surname"
-                                    value={surname}
-                                    onChange={(e) => setSurname(e.target.value)}
-                                />
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Nom"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Prénom"
+                                        value={surname}
+                                        onChange={(e) => setSurname(e.target.value)}
+                                    />
+                                </div>
                             </div>
                             <input
+                                className="form-control"
                                 type="text"
-                                placeholder="Mail"
+                                placeholder="Adresse mail"
                                 value={mail}
                                 onChange={(e) => setMail(e.target.value)}
                             />
                             <input
+                                className="form-control"
                                 type="number"
-                                placeholder="Postal Code"
+                                placeholder="Code postal"
                                 value={postCode}
                                 onChange={(e) => setPostCode(e.target.value)}
                             />
                             <input
+                                className={(password != passwordCheck) ? 'error form-control' : 'form-control'}
                                 type="password"
-                                placeholder="Password"
+                                placeholder="Mot de passe"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className={(password != passwordCheck) ? 'error' : ''}
                             />
                             <input
+                                className={(password != passwordCheck) ? 'error form-control' : 'form-control'}
                                 type="password"
-                                placeholder="Confirm password"
+                                placeholder="Confirmer le mot de passe"
                                 value={passwordCheck}
                                 onChange={(e) => setPasswordCheck(e.target.value)}
-                                className={(password != passwordCheck) ? 'error' : ''}
                             />
-                            <button onClick={handleSignup}>Signup</button>
+                            <Button onClick={handleSignup}>Créer un compte</Button>
                         </div>
                         <div>{signupStatus}</div>
                     </form>

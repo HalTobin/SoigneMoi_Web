@@ -1,4 +1,3 @@
-/* Apply some basic styles for the form */
 .column {
     display: flex;
     flex-direction: column;
@@ -9,35 +8,31 @@
     border-radius: 5px;
 }
 
-.row {
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.button-row {
+    margin-right: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 10px;
 }
 
-/* Style the label and input fields */
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
+.button-row Button:first-child {
+    margin-right: 5px;
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    /* Add this line */
-}
-
-/* Style the buttons */
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.button-row Button:last-child {
+    margin-left: 5px;
 }
 
 /* Add some styling to differentiate between Sign Up and Login buttons */

@@ -1,35 +1,27 @@
 .column {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 400px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.row {
+.form-row {
     display: flex;
     flex-direction: row;
-}
-
-/* Style the label and input fields */
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 0;
-    /* Remove default margin */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    /* Add margin-bottom to control spacing */
+    justify-content: space-between;
+    margin-right: 10px;
 }
 
 /* Add padding between "Name" and "Surname" */
-.row input:first-child {
-    margin-right: 10px;
-    /* Adjust the padding as desired */
+.form-row div:first-child {
+    margin-right: 5px;
+}
+
+.form-row div:last-child {
+    margin-left: 5px
 }
 
 /* Style the Signup button with a class selector */
