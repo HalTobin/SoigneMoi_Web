@@ -30,7 +30,7 @@ function AdminScreen() {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
-        axios.get('http://localhost:3000/api/admin/get_doctors', { headers })
+        axios.get('http://localhost:3000/api/common/get_doctors', { headers })
             .then(response => {
                 setDoctors(response.data.doctors);
                 setSpecialties(response.data.specialties);
