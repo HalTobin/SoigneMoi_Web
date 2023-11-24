@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Modal } from 'react-bootstrap';
 import './AppointmentScreen.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,13 @@ import { TOKEN_STORAGE_KEY } from "../../const";
 
 
 function AppointmentScreen() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [existingAppointment, setExistingAppointment] = useState({
+        startDate: '',
+        endDate: '',
+        reason: '',
+    });
+
     const [doctors, setDoctors] = useState([]);
     const [matchingDoctors, setMatchingDoctors] = useState([]);
     const [specialties, setSpecialties] = useState([]);
@@ -33,6 +40,10 @@ function AppointmentScreen() {
     };
 
     const navigate = useNavigate();
+
+    const openModal = () => { setIsModalOpen(true); };
+
+    const closeModal = () => { setIsModalOpen(false); };
 
     useEffect(() => {
         configureHeader()
@@ -69,6 +80,11 @@ function AppointmentScreen() {
         headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
+    }
+
+    const goToLogin = () => {
+        closeModal();
+        navigate("/login", { replace: true });
     }
 
     const fetchDoctorsAndSpecialties = async () => {
@@ -116,6 +132,18 @@ function AppointmentScreen() {
         setNewAppointmentData({ ...newAppointmentData, [name]: value });
     };
 
+    const formatResponseDate = (inputDateString) => {
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const date = new Date(inputDateString);
+
+        // Check if the date is valid
+        if (isNaN(date.getTime())) {
+            return 'Invalid Date';
+        }
+
+        return date.toLocaleDateString('fr-FR', options);
+    };
+
     const bookAppointment = () => {
         console.log(`State date ${newAppointmentData.startDate}`);
         console.log(`End date ${newAppointmentData.endDate}`);
@@ -135,11 +163,44 @@ function AppointmentScreen() {
                 setAuthorizedDate(minDate);
                 console.log(`Start date ${minDate}`);
             })
+            .catch(error => {
+                if (error.response.data.status === 'NOT_AVAILABLE') {
+                    console.log("Appointment not available");
+                    setExistingAppointment(error.response.data.existingAppointment);
+                    openModal();
+                }
+                console.log(error.response.data.toString());
+            })
     };
 
     return (
         <div className="App">
             <header className="App-header">
+                <Modal show={isModalOpen} onHide={closeModal} centered>
+                    <Modal.Header>
+                        <Modal.Title>Impossible de réserver un rendez-vous</Modal.Title>
+                    </Modal.Header>
+                    {(existingAppointment.startDate !== '') && (
+                        <Modal.Body>
+                            <p>Il semblerait que vous ayez déjà un rendez-vous du {formatResponseDate(existingAppointment.startDate)} au {formatResponseDate(existingAppointment.endDate)} pour le motif suivant : "
+                                {existingAppointment.reason}"
+                            </p>
+                        </Modal.Body>
+                    )}
+                    {(existingAppointment.startDate === '') && (
+                        <Modal.Body>
+                            <p>Il semblerait que votre session a expiré...</p>
+                        </Modal.Body>
+                    )}
+                    <Modal.Footer>
+                        {(existingAppointment.startDate !== '') && (
+                            <Button onClick={closeModal}>Continuer</Button>
+                        )}
+                        {(existingAppointment.startDate === '') && (
+                            <Button onClick={goToLogin}>Se connecter</Button>
+                        )}
+                    </Modal.Footer>
+                </Modal>
                 <div className="column">
                     <form>
                         <h3>Dates du séjour</h3>
