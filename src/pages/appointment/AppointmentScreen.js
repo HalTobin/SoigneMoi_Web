@@ -14,6 +14,9 @@ function AppointmentScreen() {
     const [matchingDoctors, setMatchingDoctors] = useState([]);
     const [specialties, setSpecialties] = useState([]);
 
+    const [authorizedDate, setAuthorizedDate] = useState(0);
+    const [authorizedEndDate, setAuthorizedEndDate] = useState(0);
+
     const [areDatesOk, setAreDatesOk] = useState(false);
     const [areAllFieldsOk, setAreAllFieldsOk] = useState(false);
 
@@ -29,6 +32,7 @@ function AppointmentScreen() {
 
     useEffect(() => {
         fetchDoctorsAndSpecialties();
+        fetchAuthorizedTimestamp();
     }, []);
 
     useEffect(() => {
@@ -50,6 +54,10 @@ function AppointmentScreen() {
         }
     }, [newAppointmentData]);
 
+    useEffect(() => {
+        configureMinEndDate();
+    }, [newAppointmentData.startDate, authorizedDate]);
+
     const fetchDoctorsAndSpecialties = async () => {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
@@ -63,6 +71,39 @@ function AppointmentScreen() {
                 navigate('/login', { replace: true });
             });
     };
+
+    const fetchAuthorizedTimestamp = async () => {
+        const headers = {
+            Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
+        };
+        axios.get('http://localhost:3000/api/appointment/authorized_date', { headers })
+            .then(response => {
+                const minDate = formatDate(response.data.timestamp)
+                setAuthorizedDate(minDate);
+                console.log(`Start date ${minDate}`);
+                //configureMinEndDate();
+            })
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    const configureMinEndDate = () => {
+        const isStartDateDefined = newAppointmentData.startDate !== '';
+        var date = new Date(isStartDateDefined ? newAppointmentData.startDate : authorizedDate);
+        date.setDate(date.getDate() + 1);
+
+        const endDateMin = formatDate(date.getTime()); // Use getTime() to get the full timestamp
+        console.log(`End Date ${endDateMin}`);
+
+        setAuthorizedEndDate(endDateMin);
+    }
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -82,7 +123,8 @@ function AppointmentScreen() {
                                     type="date"
                                     name="startDate"
                                     value={newAppointmentData.startDate}
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange}
+                                    min={authorizedDate} />
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="date">Départ</label>
@@ -90,7 +132,9 @@ function AppointmentScreen() {
                                     type="date"
                                     name="endDate"
                                     value={newAppointmentData.endDate}
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange}
+                                    min={authorizedEndDate}
+                                    disabled={newAppointmentData.startDate === ''} />
                             </div>
                         </div>
                     </form>
@@ -129,7 +173,7 @@ function AppointmentScreen() {
                                     <select
                                         className="form-control"
                                         name="doctor"
-                                        value="Dr. ${newAppointmentData.doctor.name}"
+                                        value={(newAppointmentData.doctor !== '') ? "Dr. ${newAppointmentData.doctor.name}" : "Docteurs"}
                                         onChange={handleInputChange}
                                         disabled={newAppointmentData.specialty === ''}
                                     >
