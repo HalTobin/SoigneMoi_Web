@@ -28,9 +28,14 @@ function AppointmentScreen() {
         doctor: ''
     });
 
+    var headers = {
+        Authorization: `Bearer `,
+    };
+
     const navigate = useNavigate();
 
     useEffect(() => {
+        configureHeader()
         fetchDoctorsAndSpecialties();
         fetchAuthorizedTimestamp();
     }, []);
@@ -39,7 +44,9 @@ function AppointmentScreen() {
         setMatchingDoctors(doctors.filter(doctor =>
             doctor.specialty.title == newAppointmentData.specialty
         ));
-        newAppointmentData.doctor = matchingDoctors[0];
+        if (matchingDoctors.length > 0) {
+            newAppointmentData.doctor = matchingDoctors[0].registrationNumber;
+        }
     }, [newAppointmentData.specialty]);
 
     useEffect(() => {
@@ -58,10 +65,13 @@ function AppointmentScreen() {
         configureMinEndDate();
     }, [newAppointmentData.startDate, authorizedDate]);
 
-    const fetchDoctorsAndSpecialties = async () => {
-        const headers = {
+    const configureHeader = () => {
+        headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
+    }
+
+    const fetchDoctorsAndSpecialties = async () => {
         axios.get('http://localhost:3000/api/common/get_doctors', { headers })
             .then(response => {
                 setDoctors(response.data.doctors);
@@ -73,15 +83,11 @@ function AppointmentScreen() {
     };
 
     const fetchAuthorizedTimestamp = async () => {
-        const headers = {
-            Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
-        };
         axios.get('http://localhost:3000/api/appointment/authorized_date', { headers })
             .then(response => {
                 const minDate = formatDate(response.data.timestamp)
                 setAuthorizedDate(minDate);
                 console.log(`Start date ${minDate}`);
-                //configureMinEndDate();
             })
     }
 
@@ -108,6 +114,27 @@ function AppointmentScreen() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewAppointmentData({ ...newAppointmentData, [name]: value });
+    };
+
+    const bookAppointment = () => {
+        console.log(`State date ${newAppointmentData.startDate}`);
+        console.log(`End date ${newAppointmentData.endDate}`);
+        console.log(`Reason ${newAppointmentData.reason}`);
+        console.log(`Specialty ${newAppointmentData.specialty}`);
+        console.log(`Doctor ${newAppointmentData.doctor}`);
+        configureHeader();
+        axios.post('http://localhost:3000/api/appointment/book', {
+            startDate: newAppointmentData.startDate,
+            endDate: newAppointmentData.endDate,
+            reason: newAppointmentData.reason,
+            specialty: newAppointmentData.specialty,
+            doctor: newAppointmentData.doctor,
+        }, { headers: headers, })
+            .then(response => {
+                const minDate = formatDate(response.data.timestamp)
+                setAuthorizedDate(minDate);
+                console.log(`Start date ${minDate}`);
+            })
     };
 
     return (
@@ -173,7 +200,7 @@ function AppointmentScreen() {
                                     <select
                                         className="form-control"
                                         name="doctor"
-                                        value={(newAppointmentData.doctor !== '') ? "Dr. ${newAppointmentData.doctor.name}" : "Docteurs"}
+                                        value={newAppointmentData.doctor}
                                         onChange={handleInputChange}
                                         disabled={newAppointmentData.specialty === ''}
                                     >
@@ -188,7 +215,7 @@ function AppointmentScreen() {
                             </div>
                         </form>
                     </div>)}
-                {areAllFieldsOk && (<Button>Réserver</Button>)}
+                {areAllFieldsOk && (<Button onClick={bookAppointment}>Réserver</Button>)}
             </header>
         </div>
     );
