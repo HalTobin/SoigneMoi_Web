@@ -24,3 +24,8 @@ select {
     margin-left: 1px;
     margin-right: 10px;
 }
+
+.Modal.Body {
+    margin-left: 10px;
+    margin-right: 10px;
+}

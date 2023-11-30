@@ -11,7 +11,8 @@ import { TOKEN_STORAGE_KEY } from "../../const";
 
 function AppointmentScreen() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [existingAppointment, setExistingAppointment] = useState({
+    const [isBookingSuccess, setIsBookingSuccess] = useState(false);
+    const [modalAppointment, setModalAppointment] = useState({
         startDate: '',
         endDate: '',
         reason: '',
@@ -87,6 +88,11 @@ function AppointmentScreen() {
         navigate("/login", { replace: true });
     }
 
+    const goToProfile = () => {
+        closeModal();
+        navigate("/me", { replace: true });
+    }
+
     const fetchDoctorsAndSpecialties = async () => {
         axios.get('http://localhost:3000/api/common/get_doctors', { headers })
             .then(response => {
@@ -159,14 +165,15 @@ function AppointmentScreen() {
             doctor: newAppointmentData.doctor,
         }, { headers: headers, })
             .then(response => {
-                const minDate = formatDate(response.data.timestamp)
-                setAuthorizedDate(minDate);
-                console.log(`Start date ${minDate}`);
+                setIsBookingSuccess(true);
+                setModalAppointment(response.data.appointmentData)
+                openModal();
             })
             .catch(error => {
                 if (error.response.data.status === 'NOT_AVAILABLE') {
                     console.log("Appointment not available");
-                    setExistingAppointment(error.response.data.existingAppointment);
+                    setModalAppointment(error.response.data.appointmentData);
+                    setIsBookingSuccess(false);
                     openModal();
                 }
                 console.log(error.response.data.toString());
@@ -178,25 +185,28 @@ function AppointmentScreen() {
             <header className="App-header">
                 <Modal show={isModalOpen} onHide={closeModal} centered>
                     <Modal.Header>
-                        <Modal.Title>Impossible de réserver un rendez-vous</Modal.Title>
+                        {(isBookingSuccess) && (<Modal.Title>Rendez-vous confirmé</Modal.Title>)}
+                        {(!isBookingSuccess) && (<Modal.Title>Impossible de réserver un rendez-vous</Modal.Title>)}
                     </Modal.Header>
-                    {(existingAppointment.startDate !== '') && (
-                        <Modal.Body>
-                            <p>Il semblerait que vous ayez déjà un rendez-vous du {formatResponseDate(existingAppointment.startDate)} au {formatResponseDate(existingAppointment.endDate)} pour le motif suivant : "
-                                {existingAppointment.reason}"
+                    {(!isBookingSuccess) && (<Modal.Body>
+                        {(modalAppointment.startDate != '') && (
+                            <p>Il semblerait que vous ayez déjà un rendez-vous du {formatResponseDate(modalAppointment.startDate)} au {formatResponseDate(modalAppointment.endDate)} pour le motif suivant : "
+                                {modalAppointment.reason}"
                             </p>
-                        </Modal.Body>
-                    )}
-                    {(existingAppointment.startDate === '') && (
-                        <Modal.Body>
+                        )}
+                        {(modalAppointment.startDate === '') && (
                             <p>Il semblerait que votre session a expiré...</p>
-                        </Modal.Body>
+                        )}
+                    </Modal.Body>)}
+                    {(isBookingSuccess) && (<Modal.Body>
+                        <p>Rendez-vous réserver du {formatResponseDate(modalAppointment.startDate)} au {formatResponseDate(modalAppointment.endDate)} pour le motif : {modalAppointment.reason}</p>
+                    </Modal.Body>
                     )}
                     <Modal.Footer>
-                        {(existingAppointment.startDate !== '') && (
-                            <Button onClick={closeModal}>Continuer</Button>
+                        {(modalAppointment.startDate !== '') && (
+                            <Button onClick={isBookingSuccess ? goToProfile : closeModal}>Continuer</Button>
                         )}
-                        {(existingAppointment.startDate === '') && (
+                        {(modalAppointment.startDate === '') && (
                             <Button onClick={goToLogin}>Se connecter</Button>
                         )}
                     </Modal.Footer>
