@@ -9,8 +9,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function DoctorVisitTab() {
     const [appointments, setAppointments] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [modalAppointment, setModalAppointment] = useState({
+        appointment: { id: -1, },
+        doctor: {
+            name: '',
+            visitToday: 0,
+        },
+    });
 
-    const handleCardClick = () => {
+    const handleCardClick = (modalAppointment) => {
+        setModalAppointment(modalAppointment);
         setShowModal(true);
     };
 
@@ -37,6 +45,18 @@ function DoctorVisitTab() {
             });
     }
 
+    const createVisit = async (appointmentId) => {
+        axios.post('http://localhost:3000/api/doctor_visit/new', {
+            appointmentId: appointmentId,
+        }, {
+            headers: getHeader(),
+        })
+            .then(response => {
+                handleCloseModal();
+                fetchAppointmentOfTheDay();
+            });
+    }
+
     return (
         <>
             <div className="doctor_visit_tab_main">
@@ -60,7 +80,7 @@ function DoctorVisitTab() {
                         </Card.Body>
                         <div className="position-absolute top-0 end-0 p-2">
                             <a className="clickable"
-                                onClick={handleCardClick}>Ajouter une visite</a>
+                                onClick={() => handleCardClick(appointment)}>Ajouter une visite</a>
                         </div>
                     </Card>
                 ))}
@@ -70,15 +90,21 @@ function DoctorVisitTab() {
                     <Modal.Title>Edit Appointment</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Appointment details editing form goes here.</p>
+                    {modalAppointment.doctor.visitToday === 0 ? (
+                        <p>{`Le Dr. ${modalAppointment.doctor.name} n'a pas encore de visite pour aujourd'hui. Souhaitez-vous l'associer à cette visite ?`}</p>
+                    ) : modalAppointment.doctor.visitToday < 5 ? (
+                        <p>{`Le Dr. ${modalAppointment.doctor.name} a déjà ${modalAppointment.doctor.visitToday} visite${modalAppointment.doctor.visitToday > 1 ? 's' : ''} de prévue${modalAppointment.doctor.visitToday > 1 ? 's' : ''} pour aujourd'hui. Souhaitez-vous l'associer à cette visite ?`}</p>
+                    ) : (
+                        <p>{`Le Dr. ${modalAppointment.doctor.name} a déjà 5 visites de prévues pour aujourd'hui. Vous ne pouvez pas lui en attribuer une de plus pour le moment.`}</p>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
+                        Non
                     </Button>
-                    <Button variant="primary" onClick={handleCloseModal}>
-                        Save Changes
-                    </Button>
+                    {(modalAppointment.doctor.visitToday < 5) && (<Button variant="primary" onClick={() => createVisit(modalAppointment.appointment.id)}>
+                        Oui
+                    </Button>)}
                 </Modal.Footer>
             </Modal>
         </>
