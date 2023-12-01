@@ -13,7 +13,18 @@
     /* Set text color to lightblue for the active tab */
 }
 
+.clickable {
+    align-items: center;
+    align-content: center;
+    margin-left: 16px;
+    text-decoration: none;
+    color: #000;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
 .clickable:hover {
+    cursor: pointer;
     text-decoration: underline;
 }
 

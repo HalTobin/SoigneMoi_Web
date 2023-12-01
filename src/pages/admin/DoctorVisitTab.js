@@ -40,16 +40,16 @@ function DoctorVisitTab() {
     return (
         <>
             <div className="doctor_visit_tab_main">
+                <h2>Visites pour aujourd'hui</h2>
                 {appointments.map((appointment, index) => (
                     <Card
                         key={index}
                         className={`mb-3 ${appointment.visitForToday ? 'bg-success' : 'bg-warning'} rounded`}
-                        onClick={handleCardClick} // Open the modal on card click
                     >
                         <Card.Body>
                             <Card.Title>{`Patient : ${appointment.visitor.name} ${appointment.visitor.surname}, Motif : ${appointment.appointment.reason}`}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">{`Dr. ${appointment.doctor.name}, Spécialité : ${appointment.appointment.specialty}`}</Card.Subtitle>
-                            <Card.Subtitle className="mb-2 text-muted">{`Arrivée du patient ${formatResponseDate(appointment.appointment.startDate)}, départ : ${formatResponseDate(appointment.appointment.endDate)}`}</Card.Subtitle>
+                            <Card.Subtitle className="mb-2 text-muted">{`Dr. ${appointment.doctor.name} - ${appointment.appointment.specialty}`}</Card.Subtitle>
+                            <Card.Subtitle className="mb-2 text-muted">{`Arrivée du patient le ${formatResponseDate(appointment.appointment.startDate)}, départ : ${formatResponseDate(appointment.appointment.endDate)}`}</Card.Subtitle>
                             {!appointment.visitForToday && (
                                 <div>
                                     <Card.Text>
@@ -59,9 +59,8 @@ function DoctorVisitTab() {
                             )}
                         </Card.Body>
                         <div className="position-absolute top-0 end-0 p-2">
-                            {/* Edit option at the top right corner */}
                             <a className="clickable"
-                                href={handleCardClick}>Ajouter une visite</a>
+                                onClick={handleCardClick}>Ajouter une visite</a>
                         </div>
                     </Card>
                 ))}
@@ -71,8 +70,6 @@ function DoctorVisitTab() {
                     <Modal.Title>Edit Appointment</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* Add your form or content for editing */}
-                    {/* Example: */}
                     <p>Appointment details editing form goes here.</p>
                 </Modal.Body>
                 <Modal.Footer>
