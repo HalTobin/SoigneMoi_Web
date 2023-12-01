@@ -13,6 +13,15 @@
     /* Set text color to lightblue for the active tab */
 }
 
+.clickable:hover {
+    text-decoration: underline;
+}
+
+.doctor_visit_tab_main {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 
 body {
     font-family: 'Arial', sans-serif;

@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { TOKEN_STORAGE_KEY } from "../../const";
 import DoctorTab from "./DoctorTab";
+import DoctorVisitTab from "./DoctorVisitTab";
 
 function AdminScreen() {
 
@@ -20,7 +21,7 @@ function AdminScreen() {
                 <DoctorTab />
             </Tab>
             <Tab eventKey="doctor_visit" title="Visites">
-                Tab content for Profile
+                <DoctorVisitTab />
             </Tab>
         </Tabs>
     );
