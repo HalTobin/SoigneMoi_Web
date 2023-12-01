@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { formatResponseDate, formatDate, getHeader } from '../../Utils';
 import { TOKEN_STORAGE_KEY } from "../../const";
 
 
@@ -36,9 +36,7 @@ function AppointmentScreen() {
         doctor: ''
     });
 
-    var headers = {
-        Authorization: `Bearer `,
-    };
+    var headers = '';
 
     const navigate = useNavigate();
 
@@ -47,7 +45,7 @@ function AppointmentScreen() {
     const closeModal = () => { setIsModalOpen(false); };
 
     useEffect(() => {
-        configureHeader()
+        headers = getHeader()
         fetchDoctorsAndSpecialties();
         fetchAuthorizedTimestamp();
     }, []);
@@ -76,12 +74,6 @@ function AppointmentScreen() {
     useEffect(() => {
         configureMinEndDate();
     }, [newAppointmentData.startDate, authorizedDate]);
-
-    const configureHeader = () => {
-        headers = {
-            Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
-        };
-    }
 
     const goToLogin = () => {
         closeModal();
@@ -113,14 +105,6 @@ function AppointmentScreen() {
             })
     }
 
-    function formatDate(timestamp) {
-        const date = new Date(timestamp);
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-        const day = date.getDate().toString().padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-
     const configureMinEndDate = () => {
         const isStartDateDefined = newAppointmentData.startDate !== '';
         var date = new Date(isStartDateDefined ? newAppointmentData.startDate : authorizedDate);
@@ -138,25 +122,8 @@ function AppointmentScreen() {
         setNewAppointmentData({ ...newAppointmentData, [name]: value });
     };
 
-    const formatResponseDate = (inputDateString) => {
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        const date = new Date(inputDateString);
-
-        // Check if the date is valid
-        if (isNaN(date.getTime())) {
-            return 'Invalid Date';
-        }
-
-        return date.toLocaleDateString('fr-FR', options);
-    };
-
     const bookAppointment = () => {
-        console.log(`State date ${newAppointmentData.startDate}`);
-        console.log(`End date ${newAppointmentData.endDate}`);
-        console.log(`Reason ${newAppointmentData.reason}`);
-        console.log(`Specialty ${newAppointmentData.specialty}`);
-        console.log(`Doctor ${newAppointmentData.doctor}`);
-        configureHeader();
+        headers = getHeader();
         axios.post('http://localhost:3000/api/appointment/book', {
             startDate: newAppointmentData.startDate,
             endDate: newAppointmentData.endDate,

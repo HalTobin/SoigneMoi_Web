@@ -55,7 +55,7 @@ function TopBar() {
                     )}
                     {/* Conditionally render the "Connexion" link based on the current page */}
                     {!isLoginPage && (
-                        <a href={isConnected ? '/profile' : '/login'}>{isConnected ? userName : 'Connexion'}</a>
+                        <a href={isConnected ? '/me' : '/login'}>{isConnected ? userName : 'Connexion'}</a>
                     )}
                     {isConnected && (
                         <span
