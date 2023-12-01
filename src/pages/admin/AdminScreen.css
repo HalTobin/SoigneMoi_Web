@@ -1,4 +1,19 @@
-/* Basic styling for the main container */
+.custom-tabs .nav-link {
+    background-color: transparent;
+    /* Set background color to transparent */
+    font-weight: bold;
+    /* Make text bold */
+    color: gray;
+    /* Set default text color to gray */
+    border: 0px;
+}
+
+.custom-tabs .nav-link.active {
+    color: blue;
+    /* Set text color to lightblue for the active tab */
+}
+
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
