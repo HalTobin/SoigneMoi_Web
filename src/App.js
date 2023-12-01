@@ -7,6 +7,7 @@ import HomeScreen from './pages/HomeScreen';
 import AdminScreen from './pages/admin/AdminScreen'
 import TopBar from './pages/TopBar';
 import AppointmentScreen from './pages/appointment/AppointmentScreen';
+import ProfileScreen from './pages/profile/ProfileScreen';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup" element={<SignUpScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
         <Route path="/new_appointment" element={<AppointmentScreen />} />
+        <Route path="/me" element={<ProfileScreen />} />
       </Routes>
     </BrowserRouter>
   );
