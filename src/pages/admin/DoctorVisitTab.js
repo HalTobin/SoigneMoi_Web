@@ -61,7 +61,7 @@ function DoctorVisitTab() {
         <>
             <div className="doctor_visit_tab_main">
                 <h2>Visites pour aujourd'hui</h2>
-                {appointments.map((appointment, index) => (
+                {appointments.sort((a, b) => a.visitForToday - b.visitForToday).map((appointment, index) => (
                     <Card
                         key={index}
                         className={`mb-3 ${appointment.visitForToday ? 'bg-success' : 'bg-warning'} rounded`}
