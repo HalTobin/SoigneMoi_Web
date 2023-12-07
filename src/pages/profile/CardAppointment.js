@@ -5,7 +5,7 @@ import { formatResponseDate } from '../../Utils';
 
 function CardAppointment({ appointment }) {
     if (!appointment) {
-        return <div>Error: Appointment data is missing.</div>;
+        return <div>Une erreur est survenue</div>;
     }
 
     return (

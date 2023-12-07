@@ -1,4 +1,39 @@
-/* Basic styling for the main container */
+.custom-tabs .nav-link {
+    background-color: transparent;
+    /* Set background color to transparent */
+    font-weight: bold;
+    /* Make text bold */
+    color: gray;
+    /* Set default text color to gray */
+    border: 0px;
+}
+
+.custom-tabs .nav-link.active {
+    color: blue;
+    /* Set text color to lightblue for the active tab */
+}
+
+.clickable {
+    align-items: center;
+    align-content: center;
+    margin-left: 16px;
+    text-decoration: none;
+    color: #000;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.clickable:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.doctor_visit_tab_main {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
