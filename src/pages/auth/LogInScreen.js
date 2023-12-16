@@ -21,14 +21,19 @@ function LogInScreen() {
         })
             .then((json) => {
                 if (json.status === 200) {
-                    localStorage.setItem(TOKEN_STORAGE_KEY, json.data.accessToken);
-                    if (json.data.role === "Visitor") { navigate(-1) }
-                    if (json.data.role === "Doctor") { setLoginStatus('Please use the app dedicated to doctors.'); }
-                    if (json.data.role === "Admin") { navigate('/admin', { replace: true }) }
+                    if (json.data.role === "Visitor") {
+                        localStorage.setItem(TOKEN_STORAGE_KEY, json.data.accessToken);
+                        navigate('/', { replace: true });
+                    }
+                    if (json.data.role === "Doctor") { setLoginStatus('Veuillez utiliser l\'application dédiée aux médecins.'); }
+                    if (json.data.role === "Admin") {
+                        localStorage.setItem(TOKEN_STORAGE_KEY, json.data.accessToken);
+                        navigate('/admin', { replace: true })
+                    }
                 } else {
-                    setLoginStatus('Login Failed');
+                    setLoginStatus('Une erreur est survenue');
                 }
-            }).catch((error) => setLoginStatus('Login Failed'));
+            }).catch((error) => setLoginStatus('Une erreur est survenue'));
     };
 
     return (

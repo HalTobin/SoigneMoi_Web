@@ -53,7 +53,7 @@ function DoctorVisitTab() {
         })
             .then(response => {
                 handleCloseModal();
-                fetchAppointmentOfTheDay();
+                setAppointments(response.data);
             });
     }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./SignUpScreen.css"
 import { Button } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
     const [mail, setMail] = useState('');
@@ -11,6 +12,8 @@ function SignUp() {
     const [surname, setSurname] = useState('');
     const [postCode, setPostCode] = useState('');
     const [signupStatus, setSignupStatus] = useState('');
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,12 +35,12 @@ function SignUp() {
                 });
 
                 if (response.status === 200) {
-                    setSignupStatus('Welcome!');
+                    navigate('/', { replace: true });
                 } else {
-                    setSignupStatus('Signup Failed');
+                    setSignupStatus('Erreur');
                 }
             } catch (error) {
-                setSignupStatus('Signup Failed');
+                setSignupStatus('Erreur');
             }
         }
 

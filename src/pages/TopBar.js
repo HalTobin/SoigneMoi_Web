@@ -36,7 +36,7 @@ function TopBar() {
 
     const handleLogout = async () => {
         localStorage.removeItem(TOKEN_STORAGE_KEY);
-        navigate(-1);
+        navigate('/', { replace: true })
         window.location.reload();
     };
 
