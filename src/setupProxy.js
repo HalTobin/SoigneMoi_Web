@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.use(
         '/api',
         createProxyMiddleware({
-            target: 'http://localhost:9091',
+            target: 'https://soigne.moi.totouiproject.ovh',
             changeOrigin: true,
             pathRewrite: path => path.replace('/api', '')
         })
