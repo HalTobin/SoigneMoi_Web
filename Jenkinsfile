@@ -1,5 +1,10 @@
 pipeline {
+
     agent { label 'bbq2' }
+	
+	environment {
+        CI = false          // do not treat warnings as errors
+    }
      
     stages {
         stage('Build env') {
