@@ -1,24 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LogInScreen from './pages/auth/LogInScreen';
+import SignUpScreen from './pages/auth/SignUpScreen';
+import HomeScreen from './pages/HomeScreen';
+import AdminScreen from './pages/admin/AdminScreen'
+import TopBar from './pages/TopBar';
+import AppointmentScreen from './pages/appointment/AppointmentScreen';
+import ProfileScreen from './pages/profile/ProfileScreen';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <TopBar />
+      <Routes>
+        <Route exact path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<LogInScreen />} />
+        <Route path="/signup" element={<SignUpScreen />} />
+        <Route path="/admin" element={<AdminScreen />} />
+        <Route path="/new_appointment" element={<AppointmentScreen />} />
+        <Route path="/me" element={<ProfileScreen />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,0 +1,35 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+
+/* Add padding between "Name" and "Surname" */
+.form-row div:first-child {
+    margin-right: 5px;
+}
+
+.form-row div:last-child {
+    margin-left: 5px
+}
+
+/* Style the Signup button with a class selector */
+.button {
+    background-color: #0073e6;
+    color: white;
+}
+
+.error {
+    background-color: #ff9999;
+}

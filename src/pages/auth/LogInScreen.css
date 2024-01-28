@@ -1,0 +1,47 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.button-row {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button-row Button:first-child {
+    margin-right: 5px;
+}
+
+.button-row Button:last-child {
+    margin-left: 5px;
+}
+
+/* Add some styling to differentiate between Sign Up and Login buttons */
+button:nth-child(1) {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:nth-child(2) {
+    background-color: #0073e6;
+    color: white;
+}

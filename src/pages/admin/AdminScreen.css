@@ -1,0 +1,87 @@
+.custom-tabs .nav-link {
+    background-color: transparent;
+    /* Set background color to transparent */
+    font-weight: bold;
+    /* Make text bold */
+    color: gray;
+    /* Set default text color to gray */
+    border: 0px;
+}
+
+.custom-tabs .nav-link.active {
+    color: blue;
+    /* Set text color to lightblue for the active tab */
+}
+
+.clickable {
+    align-items: center;
+    align-content: center;
+    margin-left: 16px;
+    text-decoration: none;
+    color: #000;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.clickable:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.doctor_visit_tab_main {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.form-row {
+    margin-left: -5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+
+h1 {
+    color: #333;
+}
+
+/* Styling for the form inside the modal */
+label {
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* Add padding between "Name" and "Surname" */
+.form-row input:first-child {
+    margin-right: 5px;
+    /* Adjust the padding as desired */
+}
+
+.form-row input:last-child {
+    margin-left: 5px;
+}
+
+/* Styling for the Specialité dropdown menu */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" width="12" height="12"><polygon points="0,0 8,0 4,4"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px top 60%;
+    background-size: 12px;
+}
