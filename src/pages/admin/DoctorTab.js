@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { TOKEN_STORAGE_KEY } from "../../const";
+import { TOKEN_STORAGE_KEY, BASE_URL } from "../../const";
 
 function DoctorTab() {
     const [doctors, setDoctors] = useState([]);
@@ -30,7 +30,7 @@ function DoctorTab() {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
-        axios.get('http://localhost:3000/api/common/get_doctors', { headers })
+        axios.get(`${BASE_URL}/common/get_doctors`, { headers })
             .then(response => {
                 setDoctors(response.data.doctors);
                 setSpecialties(response.data.specialties);
@@ -54,7 +54,7 @@ function DoctorTab() {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
-        axios.post('http://localhost:3000/api/admin/create_doctor', {
+        axios.post(`${BASE_URL}/admin/create_doctor`, {
             name: newDoctorData.name,
             surname: newDoctorData.surname,
             registrationNumber: newDoctorData.registrationNumber,

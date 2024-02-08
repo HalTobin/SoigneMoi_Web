@@ -2,7 +2,7 @@ import { useState } from "react";
 import './LogInScreen.css'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { TOKEN_STORAGE_KEY } from "../../const";
+import { BASE_URL, TOKEN_STORAGE_KEY } from "../../const";
 import { Button } from "react-bootstrap";
 
 function LogInScreen() {
@@ -15,7 +15,7 @@ function LogInScreen() {
     const handleSubmit = (e) => { e.preventDefault(); };
 
     const handleLogin = async () => {
-        axios.post('http://localhost:3000/api/auth/login', {
+        axios.post(`${BASE_URL}/auth/login`, {
             mail,
             password,
         })

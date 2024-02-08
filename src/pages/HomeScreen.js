@@ -3,13 +3,14 @@ import homeImage from '../images/home_image.jpg';
 import './HomeScreen.css';
 import axios from 'axios';
 import TopBar from './TopBar';
+import { BASE_URL } from '../const'
 
 function Homepage() {
     const [specialties, setSpecialties] = useState([]);
 
     useEffect(() => {
         // Make an API call to fetch data from the "public/specialties" endpoint
-        axios.get('http://localhost:3000/api/home/specialties')
+        axios.get(`${BASE_URL}/home/specialties`)
             .then(response => setSpecialties(response.data.specialties))
             .catch(error => console.error('API call error:', error));
     }, []);

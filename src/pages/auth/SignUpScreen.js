@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./SignUpScreen.css"
 import { Button } from 'react-bootstrap';
+import { BASE_URL } from '../../const';
 
 function SignUp() {
     const [mail, setMail] = useState('');
@@ -23,7 +24,7 @@ function SignUp() {
 
         if (password == passwordCheck) {
             try {
-                const response = await axios.post('http://localhost:3000/api/auth/register', {
+                const response = await axios.post(`${BASE_URL}/auth/register`, {
                     name,
                     surname,
                     mail,

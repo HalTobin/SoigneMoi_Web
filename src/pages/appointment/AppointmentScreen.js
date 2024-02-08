@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { formatResponseDate, formatDate, getHeader } from '../../Utils';
-import { TOKEN_STORAGE_KEY } from "../../const";
+import { TOKEN_STORAGE_KEY, BASE_URL } from "../../const";
 
 
 function AppointmentScreen() {
@@ -86,7 +86,7 @@ function AppointmentScreen() {
     }
 
     const fetchDoctorsAndSpecialties = async () => {
-        axios.get('http://localhost:3000/api/common/get_doctors', { headers })
+        axios.get(`${BASE_URL}/common/get_doctors`, { headers })
             .then(response => {
                 setDoctors(response.data.doctors);
                 setSpecialties(response.data.specialties);
@@ -97,7 +97,7 @@ function AppointmentScreen() {
     };
 
     const fetchAuthorizedTimestamp = async () => {
-        axios.get('http://localhost:3000/api/appointment/authorized_date', { headers })
+        axios.get(`${BASE_URL}/appointment/authorized_date`, { headers })
             .then(response => {
                 const minDate = formatDate(response.data.timestamp)
                 setAuthorizedDate(minDate);
@@ -124,7 +124,7 @@ function AppointmentScreen() {
 
     const bookAppointment = () => {
         headers = getHeader();
-        axios.post('http://localhost:3000/api/appointment/book', {
+        axios.post(`${BASE_URL}/appointment/book`, {
             startDate: newAppointmentData.startDate,
             endDate: newAppointmentData.endDate,
             reason: newAppointmentData.reason,

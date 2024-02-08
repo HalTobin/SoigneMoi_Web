@@ -5,6 +5,7 @@ import axios from 'axios';
 import './AdminScreen.css';
 import { Modal, Button, Card, Badge } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BASE_URL } from "../../const";
 
 function DoctorVisitTab() {
     const [appointments, setAppointments] = useState([]);
@@ -36,7 +37,7 @@ function DoctorVisitTab() {
     var headers;
 
     const fetchAppointmentOfTheDay = async () => {
-        axios.get('http://localhost:3000/api/doctor_visit/today_appointments', { headers })
+        axios.get(`${BASE_URL}/doctor_visit/today_appointments`, { headers })
             .then(response => {
                 setAppointments(response.data);
             })
@@ -46,7 +47,7 @@ function DoctorVisitTab() {
     }
 
     const createVisit = async (appointmentId) => {
-        axios.post('http://localhost:3000/api/doctor_visit/new', {
+        axios.post(`${BASE_URL}/doctor_visit/new`, {
             appointmentId: appointmentId,
         }, {
             headers: getHeader(),

@@ -2,7 +2,7 @@ import axios from 'axios';
 import './TopBar.css';
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { TOKEN_STORAGE_KEY } from '../const';
+import { TOKEN_STORAGE_KEY, BASE_URL } from '../const';
 import { Button } from 'react-bootstrap';
 import { LogoutOutlined } from '@mui/icons-material';
 
@@ -22,7 +22,7 @@ function TopBar() {
             Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_KEY)}`,
         };
 
-        axios.get('http://localhost:3000/api/home/current_user', { headers })
+        axios.get(`${BASE_URL}/home/current_user`, { headers })
             .then((response) => {
                 setUserName(response.data.name);
                 setIsAdmin(response.data.role === "Admin");

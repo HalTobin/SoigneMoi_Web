@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { TOKEN_STORAGE_KEY } from "../../const";
+import { BASE_URL, TOKEN_STORAGE_KEY } from "../../const";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import CardAppointment from './CardAppointment.js';
@@ -29,7 +29,7 @@ function ProfileScreen() {
     }
 
     const fetchAppointments = () => {
-        axios.get('http://localhost:3000/api/appointment/my_appointments', { headers })
+        axios.get(`${BASE_URL}/appointment/my_appointments`, { headers })
             .then(response => {
                 setCurrentAppointment(response.data.currentAppointment);
                 setPastAppointments(response.data.pastAppointments);
